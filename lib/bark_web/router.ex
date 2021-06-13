@@ -7,6 +7,7 @@ defmodule BarkWeb.Router do
     plug :fetch_flash
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+    plug BarkWeb.Plugs.SetUser
   end
 
   pipeline :api do
@@ -16,7 +17,11 @@ defmodule BarkWeb.Router do
   scope "/", BarkWeb do
     pipe_through :browser
 
-    get "/", PageController, :index
+    get "/", SessionController, :new
+    resources("/page", PageController)
+    resources("/session", SessionController, only: [:create])
+    resources("/registration", RegistrationController, only: [:new, :create])
+    delete "/sign_out", SessionController, :delete
   end
 
   # Other scopes may use custom stacks.

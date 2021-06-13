@@ -41,7 +41,16 @@ module.exports = (env, options) => {
             'css-loader',
             'sass-loader',
           ],
-        }
+        },
+        {
+          test: /bootstrap\.native/,
+          use: {
+            loader: 'bootstrap.native-loader',
+            options: {
+              only: ['collapse', 'dropdown', 'tooltip']
+            }
+          }
+        },
       ]
     },
     plugins: [

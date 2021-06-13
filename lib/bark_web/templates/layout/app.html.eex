@@ -4,27 +4,26 @@
     <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Bark · Phoenix Framework</title>
+    <title>Bark</title>
     <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/app.css") %>"/>
     <script defer type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
   </head>
   <body>
-    <header>
-      <section class="container">
-        <nav role="navigation">
-          <ul>
-            <li><a href="https://hexdocs.pm/phoenix/overview.html">Get Started</a></li>
-            <%= if function_exported?(Routes, :live_dashboard_path, 2) do %>
-              <li><%= link "LiveDashboard", to: Routes.live_dashboard_path(@conn, :home) %></li>
-            <% end %>
-          </ul>
-        </nav>
-        <a href="https://phoenixframework.org/" class="phx-logo">
-          <img src="<%= Routes.static_path(@conn, "/images/phoenix.png") %>" alt="Phoenix Framework Logo"/>
-        </a>
-      </section>
-    </header>
     <main role="main" class="container">
+      <div class="d-flex flex-column flex-md row align-items-center p-2 px-md-4 bg-dark">
+        <h3 class="my-0 mr-md-auto font-weight-normal">
+          <%= link "Bark", to: Routes.page_path(@conn, :index), class: "navbar brand text-light" %>
+        </h3>
+        <nav class="text-light">
+          <%= if @signed_in? do %>
+            Signed in as: <strong><%= Bark.Accounts.current_user(@conn).username %></strong>
+            <%= link "Sign Out", to: Routes.session_path(@conn, :delete), method: :delete, class: "btn btn-outline-primary" %>
+          <% else %>
+            <%= link "Sign up", to: Routes.registration_path(@conn, :new), class: "btn btn-outline-primary ml-md-3" %>
+            <%= link "Sign in", to: Routes.session_path(@conn, :new), class: "btn btn-outline-primary ml-md-3" %>
+          <% end %>
+        </nav>
+      </div>
       <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
       <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
       <%= @inner_content %>
