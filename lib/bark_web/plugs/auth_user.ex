@@ -4,7 +4,7 @@ defmodule BarkWeb.Plugs.AuthUser do
 
   alias BarkWeb.Router.Helpers, as: Routes
 
-  def init(_) do
+  def init(_params) do
   end
 
   def call(conn, _params) do

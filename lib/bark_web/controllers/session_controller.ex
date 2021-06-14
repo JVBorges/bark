@@ -13,7 +13,7 @@ defmodule BarkWeb.SessionController do
         conn
         |> put_session(:current_user_id, user.id)
         |> put_flash(:info, "You've signed in")
-        |> redirect(to: Routes.page_path(conn, :index))
+        |> redirect(to: "/timeline")
       { :error, _} ->
         conn
         |> put_flash(:error, "Invalid Email or Password")

@@ -2,6 +2,8 @@ defmodule Bark.Accounts do
   alias Bark.Repo
   alias Bark.Accounts.User
 
+  def get_by_username(username), do: Repo.get_by(User, username: username)
+
   def sign_in(email, password) do
     user = Repo.get_by(User, email: email)
 

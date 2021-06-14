@@ -11,7 +11,7 @@ defmodule BarkWeb.RegistrationController do
     case Accounts.register(registration_params) do
       { :ok, user } ->
         conn
-        |> redirect(to: Route.session_path(conn, :new))
+        |> redirect(to: "/")
       { :error, changeset } ->
         render(conn, "new.html", changeset: changeset)
     end

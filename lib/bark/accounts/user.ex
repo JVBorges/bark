@@ -11,7 +11,7 @@ defmodule Bark.Accounts.User do
     field :password, :string, virtual: true
     field :password_confirm, :string, virtual: true
 
-    # has_many :posts, ChatApp.Bark.Post
+    has_many :posts, Bark.Timeline.Post
 
     timestamps()
   end

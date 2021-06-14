@@ -19,13 +19,17 @@ defmodule BarkWeb.Router do
 
     get "/", PageController, :index
 
-    get "/login", SessionController, :new
     resources("/session", SessionController, only: [:create])
+    get "/login", SessionController, :new
 
-    get "/signup", RegistrationController, :new
     resources("/registration", RegistrationController, only: [:create])
+    get "/signup", RegistrationController, :new
     
     delete "/sign_out", SessionController, :delete
+
+    resources("/posts", PostController, except: [:index, :show])
+    get "/timeline", PostController, :index
+    get "/:username", PostController, :show
   end
 
   # Other scopes may use custom stacks.
