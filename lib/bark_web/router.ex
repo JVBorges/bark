@@ -17,10 +17,14 @@ defmodule BarkWeb.Router do
   scope "/", BarkWeb do
     pipe_through :browser
 
-    get "/", SessionController, :new
-    resources("/page", PageController)
+    get "/", PageController, :index
+
+    get "/login", SessionController, :new
     resources("/session", SessionController, only: [:create])
-    resources("/registration", RegistrationController, only: [:new, :create])
+
+    get "/signup", RegistrationController, :new
+    resources("/registration", RegistrationController, only: [:create])
+    
     delete "/sign_out", SessionController, :delete
   end
 
