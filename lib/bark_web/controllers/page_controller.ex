@@ -5,7 +5,7 @@ defmodule BarkWeb.PageController do
     if conn.assigns.current_user do
       conn |> redirect(to: "/timeline") |> halt()
     else
-      render(conn, "index.html")
+      render(conn, "index.html", layout: { BarkWeb.LayoutView, "index.html" })
     end
   end
 end

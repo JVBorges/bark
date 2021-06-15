@@ -3,6 +3,8 @@ defmodule BarkWeb.SessionController do
 
   alias Bark.Accounts
 
+  plug :put_layout, "index.html"
+  
   def new(conn, _params) do
     render(conn, "new.html")
   end
