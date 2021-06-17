@@ -21,7 +21,11 @@ defmodule Bark.Timeline do
 
   """
   def list_posts do
-    Repo.all(Post)
+    Repo.all from p in Post,
+            join: u in User, on: u.id == p.user_id, 
+            preload: [user: u],
+            select: [:id, :body, :inserted_at, :user_id, user: [:id, :username]],
+            order_by: [desc: p.id]     
   end
 
   @doc """
@@ -42,16 +46,13 @@ defmodule Bark.Timeline do
 
   def get_post_by_username!(username) do
     user_fetched = Accounts.get_by_username(username)
-    query = from pst in Post,
-              join: user in assoc(pst, :user),
-              where: pst.user_id == ^user_fetched.id,
-              order_by: [desc: pst.inserted_at],
-              limit: 20
-
-  Repo.all(
-      from [pst, user] in query,
-        select: %{id: pst.id, body: pst.body, likes_count: pst.likes_count}
-    )
+    Repo.all from p in Post,
+             join: u in User, on: u.id == p.user_id, 
+             preload: [user: u],
+             select: [:id, :body, :inserted_at, :user_id, user: [:id, :username]],
+             where: p.user_id == ^user_fetched.id,
+             order_by: [desc: p.id],
+             limit: 20
   end
 
   @doc """

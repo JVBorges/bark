@@ -1,6 +1,7 @@
 defmodule Bark.Accounts.User do
   use Ecto.Schema
   import Ecto.Changeset
+  import Ecto.Query, only: [from: 2]
   alias Bark.Accounts.User
 
   schema "users" do
@@ -33,6 +34,13 @@ defmodule Bark.Accounts.User do
     |> cast(attrs, [:password], [])
     |> validate_length(:password, min: 6, max: 100)
     |> encrypt_password()
+  end
+
+  def search(query, search_term) do
+    wildcard_search = "%#{search_term}%"
+
+    from user in query,
+    where: ilike(user.username, ^wildcard_search)
   end
 
   defp encrypt_password(changeset) do

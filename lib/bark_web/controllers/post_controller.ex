@@ -8,23 +8,20 @@ defmodule BarkWeb.PostController do
 
   def index(conn, _params) do
     posts = Timeline.list_posts()
-    render(conn, "index.html", posts: posts)  
-  end
-
-  def new(conn, _params) do
     changeset = Timeline.change_post(%Post{})
-    render(conn, "new.html", changeset: changeset)
+    render(conn, "index.html", posts: posts, changeset: changeset)  
   end
 
   def create(conn, %{"post" => post_params}) do
     case Timeline.create_post(conn.assigns.current_user, post_params) do
-      {:ok, post} ->
+      {:ok, _post} ->
         conn
         |> put_flash(:info, "Post created successfully.")
         |> redirect(to: "/timeline")
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "new.html", changeset: changeset)
+        posts = Timeline.list_posts()
+        render(conn, "index.html", posts: posts, changeset: changeset)
     end
   end
 
@@ -43,7 +40,7 @@ defmodule BarkWeb.PostController do
     post = Timeline.get_post!(id)
 
     case Timeline.update_post(post, post_params) do
-      {:ok, post} ->
+      {:ok, _post} ->
         conn
         |> put_flash(:info, "Post updated successfully.")
         |> redirect(to: "/timeline")

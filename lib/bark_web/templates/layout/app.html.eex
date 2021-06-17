@@ -8,27 +8,34 @@
     <link rel="stylesheet" href='<%= Routes.static_path(@conn, "/css/app.css") %>'/>
     <script defer type="text/javascript" src='<%= Routes.static_path(@conn, "/js/app.js") %>'></script>
   </head>
-  <body>
+  <body class="tertiary-background">
     <header>
-      <div class="d-flex flex-column flex-md row align-items-center p-2 px-md-4 bg-dark">
-        <h3 class="my-0 mr-md-auto font-weight-normal">
-          <%= link "Bark", to: Routes.page_path(@conn, :index), class: "navbar brand text-light" %>
-        </h3>
-        <nav class="text-light">
-          <%= if @signed_in? do %>
-            Signed in as: <strong><%= Bark.Accounts.current_user(@conn).username %></strong>
-            <%= link "Sign Out", to: Routes.session_path(@conn, :delete), method: :delete, class: "btn btn-outline-primary" %>
-          <% else %>
-            <%= link "Sign up", to: Routes.registration_path(@conn, :new), class: "btn btn-outline-primary ml-md-3" %>
-            <%= link "Sign in", to: Routes.session_path(@conn, :new), class: "btn btn-outline-primary ml-md-3" %>
+      <nav class="navbar navbar-light bg-bark-secondary">
+        <div class="container-fluid">
+          <%= link to: Routes.page_path(@conn, :index) do 
+            img_tag("/images/logo_2.svg", width: "30", height: "24")
+          end
+          %>
+          <%= form_for @conn, "/search", [method: :get, class: "d-flex"], fn f -> %>
+            <%= search_input f, :query, class: "form-control mr-2", placeholder: "Search"%>
+            <%= submit "Search", class: "btn btn-bark-primary" %>
           <% end %>
-        </nav>
-      </div>
+          <div class="text-light">
+            <%= if @signed_in? do %>
+              Signed in as: <strong><%= Bark.Accounts.current_user(@conn).username %></strong>
+              <%= link "Sign Out", to: Routes.session_path(@conn, :delete), method: :delete, class: "btn btn-outline-bark-primary" %>
+            <% else %>
+              <%= link "Sign up", to: Routes.registration_path(@conn, :new), class: "btn btn-bark-primary ml-md-3" %>
+              <%= link "Sign in", to: Routes.session_path(@conn, :new), class: "btn btn-outline-bark-primary ml-md-3" %>
+            <% end %>
+          </div>
+        </div>
+      </nav>
     </header>
-    <main role="main" class="container">
+    <main role="main" class="container ">
       <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
       <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
-      <section>
+      <section class="mt-5">
         <%= @inner_content %>
       </section>
     </main>

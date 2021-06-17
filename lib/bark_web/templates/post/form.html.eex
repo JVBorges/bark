@@ -5,15 +5,10 @@
     </div>
   <% end %>
 
-  <%= label f, :body %>
-  <%= text_input f, :body %>
+  <%= textarea f, :body, class: "form-control" %>
   <%= error_tag f, :body %>
 
-  <%= label f, :likes_count %>
-  <%= number_input f, :likes_count %>
-  <%= error_tag f, :likes_count %>
-
   <div>
-    <%= submit "Save" %>
+    <%= submit "Save", class: "btn btn-bark-primary" %>
   </div>
 <% end %>

@@ -27,7 +27,11 @@ defmodule BarkWeb.Router do
     
     delete "/sign_out", SessionController, :delete
 
-    resources("/posts", PostController, except: [:index, :show])
+    resources("/users", UserController, only: [:edit])
+    get "/search", UserController, :show
+    get "/config", UserController, :index
+
+    resources("/posts", PostController, except: [:index, :show, :new])
     get "/timeline", PostController, :index
     get "/:username", PostController, :show
   end

@@ -1,21 +1,26 @@
-<h1>Show Post</h1>
-
-<ul>
-<%= for post <- @posts do %>
-  <li>
-    <strong>Body:</strong>
-    <%= post.body %>
-  </li>
-
-  <li>
-    <strong>Likes count:</strong>
-    <%= post.likes_count %>
-  </li>
-  <span><%= link "Edit", to: Routes.post_path(@conn, :edit, post.id) %></span>  
-<% end %>
-  
-
-</ul>
-
-
-<span><%= link "Back", to: Routes.post_path(@conn, :index) %></span>
+<div class="row">
+  <div class="col-3">
+    info do usuario
+  </div>
+  <div class="col-9">
+    <div class="container">
+      <%= for post <- @posts do %>
+        <div class="border h-50 ">
+          <div class="row" style="height: 7rem">
+            <div class="col-2">
+            </div>
+            <div class="col-8">
+              <div class="row">
+                <%= post.user.username %> - <%= post.inserted_at %>
+              </div>
+              <div class="row">
+                <%= post.body %>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+    
+</div>
