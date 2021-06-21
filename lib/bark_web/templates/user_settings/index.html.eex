@@ -1,0 +1,6 @@
+<div class="container">
+  <h1>Settings</h1>
+
+  <%= render "user_form.html", Map.put(assigns, :action, Routes.user_settings_path(@conn, :update_user, @user)) %>
+  <hr>
+  <%= render "password_form.html", Map.put(assigns, :action, Routes.user_settings_path(@conn, :update_password, @user)) %>

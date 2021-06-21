@@ -1,36 +1,107 @@
-<div class="row">
-  <div class="col-3">
-    info do usuario
-  </div>
-  <div class="col-9">
-    <div class="container">
-      <div>
-        <%= render "form.html", Map.put(assigns, :action, Routes.post_path(@conn, :create)) %>
+<div class="modal fade" id="coverModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Change cover picture</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-
-      <%= for post <- @posts do %>
-        <div class="border h-50 ">
-          <div class="row" style="height: 7rem">
-            <div class="col-2">
-            </div>
-            <div class="col-8">
-              <div class="row">
-                <%= post.user.username %> - <%= post.inserted_at %>
-              </div>
-              <div class="row">
-                <%= post.body %>
-              </div>
-              <div class="row">
-                <%= if BarkWeb.PostController.can_access?(@current_user, post) do %>
-                  <span><%= link "Edit", to: Routes.post_path(@conn, :edit, post) %></span>
-                  <span><%= link "Delete", to: Routes.post_path(@conn, :delete, post), method: :delete, data: [confirm: "Are you sure?"] %></span>
-                <% end %>
-              </div>
-            </div>
-          </div>
+      <%= form_for @changeset, Routes.user_settings_path(@conn, :update_cover), [method: :put, multipart: true], fn f -> %>
+      <div class="modal-body">
+        <div class="form-group">
+          <%= file_input f, :cover_pic_url, class: "form-control" %>    
+          <%= error_tag f, :cover_pic_url %>  
         </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <%= submit "Upload Image", class: "btn btn-primary" %>
+      </div>
       <% end %>
     </div>
   </div>
-    
+</div>
+
+<div class="modal fade" id="profileModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Change profile picture</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <%= form_for @changeset, Routes.user_settings_path(@conn, :update_avatar), [method: :put, multipart: true], fn f -> %>
+      <div class="modal-body">
+        <div class="form-group">
+          <%= file_input f, :profile_pic_url, class: "form-control" %>    
+          <%= error_tag f, :profile_pic_url %>  
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <%= submit "Upload Image", class: "btn btn-primary" %>
+      </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <%= if @current_user.cover_pic_url do %>
+      <img src='<%= Bark.CoverPicUploader.url(@current_user.cover_pic_url, signed: true) %>' alt="" class="rounded" width=200 height=200>
+    <% else %>
+      <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#coverModal">
+        <img src='<%= Routes.static_path(@conn, "/images/placeholder.png") %>' alt="" width="100%" height="200px" style="object-fit: cover">
+      </button>
+    <% end %>
+  </div>
+  <div class="row">
+    <div class="col-3">
+      <%= if @current_user.profile_pic_url do %>
+        <img src='<%= Bark.ProfilePicUploader.url(@current_user.profile_pic_url, signed: true) %>' alt="" class="rounded" width=200 height=200>
+      <% else %>
+        <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#profileModal">
+          <img src='<%= Routes.static_path(@conn, "/images/default-profile-picture.png") %>' alt="" class="rounded" width=200 height=200>
+        </button>
+      <% end %>
+      <div class="row">
+        <h4><strong>@<%= @current_user.username %></strong></h4>
+      </div>
+      <div class="row">
+        bio info
+      </div>
+      <div class="row">
+        <%= link "Settings", to: Routes.user_settings_path(@conn, :index) %>
+      </div>
+    </div>
+    <div class="col-9">
+      <div class="container">
+        <div>
+          <%= render "form.html", Map.put(assigns, :action, Routes.post_path(@conn, :create)) %>
+        </div>
+
+        <%= for post <- @posts do %>
+          <div class="border h-50 ">
+            <div class="row" style="height: 7rem">
+              <div class="col-2">
+              </div>
+              <div class="col-8">
+                <div class="row">
+                  <%= post.user.username %> - <%= post.inserted_at %>
+                </div>
+                <div class="row">
+                  <%= post.body %>
+                </div>
+                <div class="row">
+                  <%= if BarkWeb.PostController.can_access?(@current_user, post) do %>
+                    <span><%= link "Edit", to: Routes.post_path(@conn, :edit, post) %></span>
+                    <span><%= link "Delete", to: Routes.post_path(@conn, :delete, post), method: :delete, data: [confirm: "Are you sure?"] %></span>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
 </div>

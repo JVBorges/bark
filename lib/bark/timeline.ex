@@ -49,8 +49,18 @@ defmodule Bark.Timeline do
     Repo.all from p in Post,
              join: u in User, on: u.id == p.user_id, 
              preload: [user: u],
-             select: [:id, :body, :inserted_at, :user_id, user: [:id, :username]],
+             select: [:id, :body, :inserted_at, :user_id, user: [:id, :username, :profile_pic_url, :cover_pic_url]],
              where: p.user_id == ^user_fetched.id,
+             order_by: [desc: p.id],
+             limit: 20
+  end
+
+  def get_user_posts!(username) do
+    Repo.all from u in User,
+             join: p in Post, on: p.user_id == u.id,
+             preload: [posts: p],
+             select: [:id, :username, :profile_pic_url, :cover_pic_url, posts: [:id, :body, :inserted_at, :user_id]],
+             where: u.username == ^username,
              order_by: [desc: p.id],
              limit: 20
   end

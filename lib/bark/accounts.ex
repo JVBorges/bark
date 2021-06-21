@@ -6,7 +6,7 @@ defmodule Bark.Accounts do
     user = Repo.get_by(User, email: email)
 
     cond do
-      user && Bcrypt.check_pass(password, user.password_hash) ->
+      user && Bcrypt.verify_pass(password, user.password_hash) ->
         { :ok, user }
       true ->
         { :error, :unauthorized }
@@ -46,6 +46,36 @@ defmodule Bark.Accounts do
     |> Repo.update()
   end
 
+  def update_user_password(%User{} = user, attrs) do
+    user
+    |> User.update_password_changeset(attrs)
+    |> Repo.update()
+  end
+
+  def update_user_profile_pic(%User{} = user, attrs) do
+    user
+    |> User.profile_pic_changeset(attrs)
+    |> Repo.update()
+  end
+
+  def update_user_cover_pic(%User{} = user, attrs) do
+    user
+    |> User.cover_pic_changeset(attrs)
+    |> Repo.update()
+  end
+  
+  def change_user_cover_pic(%User{} = user) do
+    User.cover_pic_changeset(user, %{})
+  end
+  
+  def change_user_profile_pic(%User{} = user) do
+    User.profile_pic_changeset(user, %{})
+  end
+
+  def change_user_password(%User{} = user, attrs \\ %{}) do
+    User.update_password_changeset(user, attrs)
+  end
+  
   def change_user(%User{} = user, attrs \\ %{}) do
     User.changeset(user, attrs)
   end

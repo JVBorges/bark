@@ -1,0 +1,13 @@
+<%= form_for @changeset, Routes.user_settings_path(@conn, :update_user, @user), [class: "form-signin"], fn f -> %>
+  <div class="mb-4">
+    <%= label f, :email, class: "form-label" %>
+    <%= text_input f, :email, class: "form-control", placeholder: "Email Address...", required: true %>
+    <%= error_tag f, :email %>
+  </div>
+  <div class="mb-4">
+    <%= label f, :username, class: "control-label" %>
+    <%= text_input f, :username, class: "form-control", placeholder: "User name...", required: true %>
+    <%= error_tag f, :username %>
+  </div>
+  <%= submit "Update", class: "btn btn-bark-primary w-100" %>
+<% end %>

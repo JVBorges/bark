@@ -27,13 +27,21 @@ defmodule BarkWeb.Router do
     
     delete "/sign_out", SessionController, :delete
 
-    resources("/users", UserController, only: [:edit])
-    get "/search", UserController, :show
-    get "/config", UserController, :index
-
     resources("/posts", PostController, except: [:index, :show, :new])
     get "/timeline", PostController, :index
-    get "/:username", PostController, :show
+
+    get "/search", UserController, :search
+    get "/:username", UserController, :show
+  end
+
+  scope "/user", BarkWeb do
+    pipe_through :browser
+
+    get "/settings", UserSettingsController, :index
+    put "/settings/update_user/:id", UserSettingsController, :update_user
+    put "/settings/update_password/:id", UserSettingsController, :update_password
+    put "/settings/update_avatar", UserSettingsController, :update_avatar
+    put "/settings/update_cover", UserSettingsController, :update_cover
   end
 
   # Other scopes may use custom stacks.

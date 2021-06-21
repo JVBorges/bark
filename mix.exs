@@ -47,7 +47,13 @@ defmodule Bark.MixProject do
       {:distillery, "~> 2.1"},
       {:plug_cowboy, "~> 2.0"},
       {:comeonin, "~> 5.1"},
-      {:bcrypt_elixir, "~> 2.0"}
+      {:bcrypt_elixir, "~> 2.0"},
+      {:waffle, "~> 1.1.0"},
+      {:waffle_ecto, "~> 0.0"},
+      {:ex_aws, "~> 2.1.2"},
+      {:ex_aws_s3, "~> 2.0"},
+      {:hackney, "~> 1.9"},
+      {:sweet_xml, "~> 0.6"}
     ]
   end
 

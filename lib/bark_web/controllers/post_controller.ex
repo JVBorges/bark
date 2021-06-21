@@ -25,11 +25,6 @@ defmodule BarkWeb.PostController do
     end
   end
 
-  def show(conn, %{"username" => username}) do
-    posts = Timeline.get_post_by_username!(username)
-    render(conn, "show.html", posts: posts)
-  end
-
   def edit(conn, %{"id" => id}) do
     post = Timeline.get_post!(id)
     changeset = Timeline.change_post(post)
@@ -58,7 +53,6 @@ defmodule BarkWeb.PostController do
     |> put_flash(:info, "Post deleted successfully.")
     |> redirect(to: Routes.post_path(conn, :index))
   end
-
 
   def can_access?(user, post) do
     user && user.id == post.user_id

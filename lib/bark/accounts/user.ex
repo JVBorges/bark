@@ -1,5 +1,6 @@
 defmodule Bark.Accounts.User do
   use Ecto.Schema
+  use Waffle.Ecto.Schema
   import Ecto.Changeset
   import Ecto.Query, only: [from: 2]
   alias Bark.Accounts.User
@@ -8,6 +9,8 @@ defmodule Bark.Accounts.User do
     field :email, :string
     field :password_hash, :string
     field :username, :string
+    field :profile_pic_url, Bark.ProfilePicUploader.Type
+    field :cover_pic_url, Bark.CoverPicUploader.Type
 
     field :password, :string, virtual: true
     field :password_confirm, :string, virtual: true
@@ -34,6 +37,27 @@ defmodule Bark.Accounts.User do
     |> cast(attrs, [:password], [])
     |> validate_length(:password, min: 6, max: 100)
     |> encrypt_password()
+  end
+
+  def update_password_changeset(%User{} = user, attrs) do
+    user
+    |> cast(attrs, [:password])
+    |> validate_confirmation(:password)
+    |> cast(attrs, [:password], [])
+    |> validate_length(:password, min: 6, max: 100)
+    |> encrypt_password()
+  end
+
+  def profile_pic_changeset(%User{} = user, attrs) do
+    user
+    |> cast(attrs, [])
+    |> cast_attachments(attrs, [:profile_pic_url])
+  end
+
+  def cover_pic_changeset(%User{} = user, attrs) do
+    user
+    |> cast(attrs, [])
+    |> cast_attachments(attrs, [:cover_pic_url])
   end
 
   def search(query, search_term) do
