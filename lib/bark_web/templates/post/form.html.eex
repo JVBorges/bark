@@ -8,7 +8,7 @@
   <%= textarea f, :body, class: "form-control" %>
   <%= error_tag f, :body %>
 
-  <div>
-    <%= submit "Save", class: "btn btn-bark-primary" %>
+  <div class="pull-right mt-2">
+    <%= submit "Bark!", class: "btn btn-bark-primary" %>
   </div>
 <% end %>

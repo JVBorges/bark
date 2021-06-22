@@ -18,7 +18,7 @@
           %>
           <%= form_for @conn, "/search", [method: :get, class: "d-flex"], fn f -> %>
             <%= search_input f, :query, class: "form-control mr-2", placeholder: "Search"%>
-            <%= submit "Search", class: "btn btn-bark-primary" %>
+            <%= submit "", class: "btn btn-bark-primary fa fa-search" %>
           <% end %>
           <div class="text-light">
             <%= if @signed_in? do %>

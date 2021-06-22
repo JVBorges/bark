@@ -46,60 +46,92 @@
 
 <div class="container">
   <div class="row">
-    <%= if @current_user.cover_pic_url do %>
-      <img src='<%= Bark.CoverPicUploader.url(@current_user.cover_pic_url, signed: true) %>' alt="" class="rounded" width=200 height=200>
-    <% else %>
-      <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#coverModal">
-        <img src='<%= Routes.static_path(@conn, "/images/placeholder.png") %>' alt="" width="100%" height="200px" style="object-fit: cover">
+    <div class="card px-0" style="border: none !important">
+      <button type="button" class="btn p-0" data-bs-toggle="modal" data-bs-target="#coverModal">
+      <!-- 
+        <%= if @current_user.cover_pic_url do %>
+          <img src='<%= Bark.CoverPicUploader.url(@current_user.cover_pic_url, signed: true) %>' alt="" width="100%" height="200px" style="object-fit: cover">
+        <% else %>    
+          <img src='<%= Routes.static_path(@conn, "/images/placeholder.png") %>' alt="" width="100%" height="200px" style="object-fit: cover">
+        <% end %>
+        -->
       </button>
-    <% end %>
+      <div class="d-flex justify-content-center mt-5 card-img-overlay w-25">
+        <div>
+          <button type="button" class="btn p-0 mb-3" data-bs-toggle="modal" data-bs-target="#profileModal">
+          <!--   <%= if @current_user.profile_pic_url do %>
+              <img src='<%= Bark.ProfilePicUploader.url(@current_user.profile_pic_url, signed: true) %>' alt="" class="rounded-circle border border-2" style="object-fit: cover; width: 250px; height: 250px;">
+            <% else %>
+              <img src='<%= Routes.static_path(@conn, "/images/default-profile-picture.png") %>' alt="" class="rounded-circle border border-2" style="object-fit: cover; width: 250px; height: 250px;">
+            <% end %>
+            -->
+          </button>
+          <div class="row">
+            <h4><strong>@<%= @current_user.username %></strong></h4>
+          </div>
+          <%# <div class="row">
+            bio info
+          </div> %>
+          <div class="row">
+            <%= link " Settings", to: Routes.user_settings_path(@conn, :index), class: "fa fa-cog link-bark-primary text-decoration-none" %>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
   <div class="row">
     <div class="col-3">
-      <%= if @current_user.profile_pic_url do %>
-        <img src='<%= Bark.ProfilePicUploader.url(@current_user.profile_pic_url, signed: true) %>' alt="" class="rounded" width=200 height=200>
-      <% else %>
-        <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#profileModal">
-          <img src='<%= Routes.static_path(@conn, "/images/default-profile-picture.png") %>' alt="" class="rounded" width=200 height=200>
-        </button>
-      <% end %>
-      <div class="row">
-        <h4><strong>@<%= @current_user.username %></strong></h4>
-      </div>
-      <div class="row">
-        bio info
-      </div>
-      <div class="row">
-        <%= link "Settings", to: Routes.user_settings_path(@conn, :index) %>
-      </div>
     </div>
-    <div class="col-9">
-      <div class="container">
-        <div>
-          <%= render "form.html", Map.put(assigns, :action, Routes.post_path(@conn, :create)) %>
+    <div class="col-9 px-0">
+      <div class="container w-75">
+        <div class="card rounded-3 my-4">
+          <div class="card-body">
+            <div class="card-title">
+              <h5>Create new post!</h5>
+            </div>
+            <div class="card-text">
+              <%= render "form.html", Map.put(assigns, :action, Routes.post_path(@conn, :create)) %>
+            </div>
+          </div>
         </div>
-
         <%= for post <- @posts do %>
-          <div class="border h-50 ">
-            <div class="row" style="height: 7rem">
-              <div class="col-2">
-              </div>
-              <div class="col-8">
-                <div class="row">
-                  <%= post.user.username %> - <%= post.inserted_at %>
-                </div>
-                <div class="row">
-                  <%= post.body %>
-                </div>
-                <div class="row">
-                  <%= if BarkWeb.PostController.can_access?(@current_user, post) do %>
-                    <span><%= link "Edit", to: Routes.post_path(@conn, :edit, post) %></span>
-                    <span><%= link "Delete", to: Routes.post_path(@conn, :delete, post), method: :delete, data: [confirm: "Are you sure?"] %></span>
+          <div class="card h-50 rounded-3 mb-2">
+            <div class="row g-0">
+              <div class="col-md-2 p-2">
+                <div class="d-flex justify-content-center">
+                  <%= link to: "#{post.user.username}" do %>
+                    <!-- 
+                    <%= if post.user.profile_pic_url do %>
+                      <img src='<%= Bark.ProfilePicUploader.url(post.user.profile_pic_url, signed: true) %>' alt="" class="rounded-circle border border-2" style="object-fit: cover; width: 50px; height: 50px;">
+                    <% else %>
+                      <img src='<%= Routes.static_path(@conn, "/images/default-profile-picture.png") %>' alt="" class="rounded-circle border border-2" style="object-fit: cover; width: 50px; height: 50px;">
+                    <% end %>
+                    -->
                   <% end %>
                 </div>
               </div>
+              <div class="col-md-10">
+                <div class="row card-title border-bottom m-0">
+                  <div class="col-sm-2">
+                    <%= post.user.username %>
+                  </div>
+                  <div class="col-sm-8">
+                    Posted at: <%= post.inserted_at %>
+                  </div>
+                  <div class="col-sm-2">
+                    <%= if BarkWeb.PostController.can_access?(@current_user, post) do %>
+                      <span><%= link "", to: Routes.post_path(@conn, :edit, post), class: "link-bark-primary fa fa-pencil text-decoration-none" %></span>
+                      <span><%= link "", to: Routes.post_path(@conn, :delete, post), method: :delete, data: [confirm: "Are you sure?"], class: "link-bark-primary fa fa-trash-o text-decoration-none" %></span>
+                    <% end %>
+                  </div>
+                </div>
+                <div class="card-body">
+                  <%= post.body %>
+                </div>  
+              </div>
             </div>
           </div>
+          
         <% end %>
       </div>
     </div>

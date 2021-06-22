@@ -16,6 +16,7 @@ $custom-colors: (
 $theme-colors: map-merge($theme-colors, $custom-colors);
 
 @import "~bootstrap/scss/bootstrap";
+@import '~font-awesome/css/font-awesome.css';
 /* Alerts and form errors */
 .alert {
   padding: 15px;

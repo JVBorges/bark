@@ -14,3 +14,4 @@ import "../css/app.scss"
 //
 import "phoenix_html"
 import "bootstrap";
+import "font-awesome/css/font-awesome.css";

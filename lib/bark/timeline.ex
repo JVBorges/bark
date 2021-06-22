@@ -24,7 +24,7 @@ defmodule Bark.Timeline do
     Repo.all from p in Post,
             join: u in User, on: u.id == p.user_id, 
             preload: [user: u],
-            select: [:id, :body, :inserted_at, :user_id, user: [:id, :username]],
+            select: [:id, :body, :inserted_at, :user_id, user: [:id, :username, :profile_pic_url]],
             order_by: [desc: p.id]     
   end
 

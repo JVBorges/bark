@@ -72,10 +72,6 @@ defmodule Bark.Accounts do
     User.profile_pic_changeset(user, %{})
   end
 
-  def change_user_password(%User{} = user, attrs \\ %{}) do
-    User.update_password_changeset(user, attrs)
-  end
-  
   def change_user(%User{} = user, attrs \\ %{}) do
     User.changeset(user, attrs)
   end
