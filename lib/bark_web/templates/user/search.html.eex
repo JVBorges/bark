@@ -1,5 +1,33 @@
-<h1>Search result</h1>
+<div class="container">
+  <h1>Search result</h1>
 
-<%= for user <- @users do %>
-  <p><%= user.username %></p>
-<% end %>
+    <%= if Enum.empty?(@users) do %>
+      <div class="d-flex justify-content-center text-body">
+        <h4>No results found!</h4>
+      </div>
+    <% else %>
+      <%= for user <- @users do %>
+        <%= link to: "p/#{user.username}", class: "text-decoration-none" do %>
+          <div class="card h-50 rounded-3 mb-2">
+            <div class="row g-0">
+              <div class="col-md-2 p-2">
+                <div class="d-flex justify-content-center">
+                  <%= if user.profile_pic_url do %>
+                    <img src='<%= Bark.ProfilePicUploader.url(user.profile_pic_url, signed: true) %>' alt="" class="rounded-circle border border-2" style="object-fit: cover; width: 50px; height: 50px;">
+                  <% else %>
+                    <img src='<%= Routes.static_path(@conn, "/images/default-profile-picture.png") %>' alt="" class="rounded-circle border border-2" style="object-fit: cover; width: 50px; height: 50px;">
+                  <% end %>
+                </div>
+              </div>
+              <div class="col-md-10">
+                <div class="card-body">
+                  <%= user.username %>
+                </div>  
+              </div>
+            </div>
+          </div>
+        <% end %>
+      <% end %>
+    <% end %>
+  </div>
+</div>

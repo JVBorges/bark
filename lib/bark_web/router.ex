@@ -10,6 +10,10 @@ defmodule BarkWeb.Router do
     plug BarkWeb.Plugs.SetUser
   end
 
+  pipeline :auth do
+    plug BarkWeb.Plugs.AuthUser
+  end
+
   pipeline :api do
     plug :accepts, ["json"]
   end
@@ -27,15 +31,19 @@ defmodule BarkWeb.Router do
     
     delete "/sign_out", SessionController, :delete
 
+    get "/search", UserController, :search
+    get "/p/:username", UserController, :show
+  end
+
+  scope "/", BarkWeb do
+    pipe_through [:browser, :auth]
+
     resources("/posts", PostController, except: [:index, :show, :new])
     get "/timeline", PostController, :index
-
-    get "/search", UserController, :search
-    get "/:username", UserController, :show
   end
 
   scope "/user", BarkWeb do
-    pipe_through :browser
+    pipe_through [:browser, :auth]
 
     get "/settings", UserSettingsController, :index
     put "/settings/update_user/:id", UserSettingsController, :update_user

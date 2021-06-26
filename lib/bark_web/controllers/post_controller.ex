@@ -3,7 +3,6 @@ defmodule BarkWeb.PostController do
 
   alias Bark.Timeline
   alias Bark.Timeline.Post
-  plug BarkWeb.Plugs.AuthUser when action in [:index, :new, :edit, :update, :delete]
 	plug :authorize_user when action in [:edit, :update, :delete]
 
   def index(conn, _params) do
