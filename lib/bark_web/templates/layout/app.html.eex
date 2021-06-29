@@ -32,12 +32,22 @@
         </div>
       </nav>
     </header>
-    <main role="main">
-      <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
-      <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
-      <section>
-        <%= @inner_content %>
-      </section>
+    <main role="main" class="main">
+      <div class="content-wrap">
+        <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
+        <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
+        <section>
+          <%= @inner_content %>
+        </section>
+      </div>
+      <footer class="footer bg-bark-secondary text-white">
+        <div class="text-center p-2">
+          Made by  
+          <a href="https://github.com/JVBorges" target="_" class="text-bark-primary">João Vitor</a>
+            using 
+          <a href="https://www.phoenixframework.org/" target="_" class="text-bark-primary">Phoenix Framework</a>
+        </div>
+      </footer>
     </main>
   </body>
 </html>
