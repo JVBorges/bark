@@ -11,7 +11,11 @@ defmodule BarkWeb.UserController do
   end
 
   def show(conn, %{"username" => username}) do
-    [user | _] = Timeline.get_user_posts!(username)
-    render(conn, "show.html", user: user)
+    user = Timeline.get_user_posts!(username)
+    if Enum.empty?(user) do
+      render(conn, "404.html")
+    else      
+      render(conn, "show.html", user: List.first(user))
+    end
   end
 end

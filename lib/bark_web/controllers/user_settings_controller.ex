@@ -2,7 +2,6 @@ defmodule BarkWeb.UserSettingsController do
   use BarkWeb, :controller
 
   alias Bark.Accounts
-  alias Bark.Accounts.User
   plug BarkWeb.Plugs.AuthUser when action in [:index, :edit, :update, :update_avatar, :update_cover, :delete]
 
   def index(conn, _params) do
@@ -67,14 +66,5 @@ defmodule BarkWeb.UserSettingsController do
         conn 
         |> redirect(to: Routes.post_path(conn, :index))
     end
-  end
-
-  def delete(conn, %{"id" => id}) do
-    user = Accounts.get_user!(id)
-    {:ok, _user} = Accounts.delete_user(user)
-
-    conn
-    |> put_flash(:info, "user deleted successfully.")
-    |> redirect(to: Routes.session_path(conn, :new))
   end
 end

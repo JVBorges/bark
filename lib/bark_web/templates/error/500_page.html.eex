@@ -6,29 +6,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-
-    <title>Welcome to Phoenix!</title>
+    <title>Bark</title>
     <link rel="stylesheet" href="/css/app.css">
   </head>
 
   <body>
-    <div class="container">
-      <div class="header">
-        <ul class="nav nav-pills pull-right">
-          <li><a href="https://hexdocs.pm/phoenix/overview.html">Get Started</a></li>
-        </ul>
-        <span class="logo"></span>
+    <div class="d-flex align-items-center justify-content-center min-vh-100 bg-bark-secondary">
+      <div class="text-light">
+        <div class="row">
+          <div class="col-sm-4">
+            <img src='<%= Routes.static_path(@conn, "/images/500.svg") %>' alt="" class="w-75">
+          </div>
+          <div class="col-sm-8">
+            <div class="row">
+              <h1>Error 500</h1>
+            </div>
+            <div class="row">
+              <p>Shit happens! Something went wrong.</p>
+            </div>
+            <div class="row">
+              <p>Please try again.</p>
+            </div>
+            <%= link "Home", to: Routes.page_path(@conn, :index), class: "btn btn-bark-primary" %>
+          </div>
+        </div>
       </div>
-
-      <div class="phx-hero">
-        <p>Sorry, something went wrong.</p>
-      </div>
-
-      <div class="footer">
-        <p><a href="https://phoenixframework.org">phoenixframework.org</a></p>
-      </div>
-
-    </div> <!-- /container -->
+    </div>
     <script src="/js/app.js"></script>
   </body>
 </html>
