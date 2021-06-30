@@ -14,7 +14,7 @@ defmodule BarkWeb.UserController do
     user = Timeline.get_user_posts!(username)
     if Enum.empty?(user) do
       render(conn, "404.html")
-    else      
+    else
       render(conn, "show.html", user: List.first(user))
     end
   end

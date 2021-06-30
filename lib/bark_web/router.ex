@@ -19,6 +19,13 @@ defmodule BarkWeb.Router do
   end
 
   scope "/", BarkWeb do
+    pipe_through [:browser, :auth]
+
+    resources("/posts", PostController, except: [:index, :show, :new])
+    get "/timeline", PostController, :index
+  end
+
+  scope "/", BarkWeb do
     pipe_through :browser
 
     get "/", PageController, :index
@@ -31,15 +38,8 @@ defmodule BarkWeb.Router do
     
     delete "/sign_out", SessionController, :delete
 
-    get "/timeline", PostController, :index
-    get "/:username", UserController, :show
     get "/search", UserController, :search
-  end
-
-  scope "/", BarkWeb do
-    pipe_through [:browser, :auth]
-
-    resources("/posts", PostController, except: [:index, :show, :new])
+    get "/:username", UserController, :show
   end
 
   scope "/user", BarkWeb do
