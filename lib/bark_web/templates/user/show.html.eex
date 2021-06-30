@@ -27,38 +27,44 @@
     </div>
     <div class="col-9 px-0">
       <div class="container w-75 mt-4">
-        <%= for post <- @user.posts do %>
-          <div class="card h-50 rounded-3 mb-2">
-            <div class="row g-0">
-              <div class="col-md-2 p-2">
-                <div class="d-flex justify-content-center">
-                  <%= if @user.profile_pic_url do %>
-                    <img src='<%= Bark.ProfilePicUploader.url(@user.profile_pic_url, signed: true) %>' alt="" class="rounded-circle border border-2" style="object-fit: cover; width: 50px; height: 50px;">
-                  <% else %>
-                    <img src='<%= Routes.static_path(@conn, "/images/default-profile-picture.png") %>' alt="" class="rounded-circle border border-2" style="object-fit: cover; width: 50px; height: 50px;">
-                  <% end %>
-                </div>
-              </div>
-              <div class="col-md-10">
-                <div class="row card-title border-bottom m-0">
-                  <div class="col-sm-2">
-                    <%= @user.username %>
-                  </div>
-                  <div class="col-sm-8">
-                    Posted at: <%= post.inserted_at %>
-                  </div>
-                  <div class="col-sm-2">
-                    <%= if BarkWeb.PostController.can_access?(@user, post) do %>
-                      <span><%= link "", to: Routes.post_path(@conn, :edit, post), class: "link-bark-primary fa fa-pencil text-decoration-none" %></span>
-                      <span><%= link "", to: Routes.post_path(@conn, :delete, post), method: :delete, class: "link-bark-primary fa fa-trash-o text-decoration-none" %></span>
+        <%= if !Enum.empty?(@user.posts) do %>
+          <%= for post <- @user.posts do %>
+            <div class="card h-50 rounded-3 mb-2">
+              <div class="row g-0">
+                <div class="col-md-2 p-2">
+                  <div class="d-flex justify-content-center">
+                    <%= if @user.profile_pic_url do %>
+                      <img src='<%= Bark.ProfilePicUploader.url(@user.profile_pic_url, signed: true) %>' alt="" class="rounded-circle border border-2" style="object-fit: cover; width: 50px; height: 50px;">
+                    <% else %>
+                      <img src='<%= Routes.static_path(@conn, "/images/default-profile-picture.png") %>' alt="" class="rounded-circle border border-2" style="object-fit: cover; width: 50px; height: 50px;">
                     <% end %>
                   </div>
                 </div>
-                <div class="card-body">
-                  <%= post.body %>
-                </div>  
+                <div class="col-md-10">
+                  <div class="row card-title border-bottom m-0">
+                    <div class="col-sm-2">
+                      <%= @user.username %>
+                    </div>
+                    <div class="col-sm-8">
+                      Posted at: <%= post.inserted_at %>
+                    </div>
+                    <div class="col-sm-2">
+                      <%= if BarkWeb.PostController.can_access?(@user, post) do %>
+                        <span><%= link "", to: Routes.post_path(@conn, :edit, post), class: "link-bark-primary fa fa-pencil text-decoration-none" %></span>
+                        <span><%= link "", to: Routes.post_path(@conn, :delete, post), method: :delete, class: "link-bark-primary fa fa-trash-o text-decoration-none" %></span>
+                      <% end %>
+                    </div>
+                  </div>
+                  <div class="card-body">
+                    <%= post.body %>
+                  </div>  
+                </div>
               </div>
             </div>
+          <% end %>
+        <% else %>
+          <div>
+            <p class="text-center">This user does not have any post yet!!!</p>
           </div>
         <% end %>
       </div>
