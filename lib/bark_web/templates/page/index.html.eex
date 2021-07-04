@@ -3,10 +3,10 @@
     <img class="img-fluid h-50" src='<%= Routes.static_path(@conn, "/images/logo_2.svg") %>'>        
   </div>
   <div class="col-4 d-flex align-items-center tertiary-background">
-    <div>
+    <div class="w-100">
       <h1 class="display-2">Welcome to Bark!</h1>
       <%= link "Login", to: Routes.session_path(@conn, :new), class: "btn btn-outline-bark-primary" %>
-      <%= link "Sign up", to: Routes.registration_path(@conn, :new), class: "btn btn-bark-primary" %>
+      <%= link "Sign up", to: Routes.registration_path(@conn, :new), class: "btn btn-bark-primary mx-2" %>
     </div>
   </div>
 </div>

@@ -108,10 +108,10 @@
                 </div>
                 <div class="col-md-10">
                   <div class="row card-title border-bottom m-0">
-                    <div class="col-sm-2">
+                    <div class="col-sm-4">
                       <%= post.user.username %>
                     </div>
-                    <div class="col-sm-8">
+                    <div class="col-sm-6">
                       Posted at: <%= post.inserted_at %>
                     </div>
                     <div class="col-sm-2">
