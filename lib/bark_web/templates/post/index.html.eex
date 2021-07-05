@@ -66,9 +66,6 @@
           <div class="row">
             <h4><strong>@<%= @current_user.username %></strong></h4>
           </div>
-          <%# <div class="row">
-            bio info
-          </div> %>
           <div class="row">
             <%= link " Settings", to: Routes.user_settings_path(@conn, :index), class: "fa fa-cog link-bark-primary text-decoration-none" %>
           </div>
