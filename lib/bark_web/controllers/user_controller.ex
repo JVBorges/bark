@@ -6,7 +6,6 @@ defmodule BarkWeb.UserController do
 
   def search(conn, params) do
     users = Accounts.list_users(params)
-    IO.inspect users
     render(conn, "search.html", users: users)
   end
 
