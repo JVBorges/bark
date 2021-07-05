@@ -1,9 +1,9 @@
 <div class="container">
-  <h1>Search result</h1>
+  <h1 class="pt-3">Search result</h1>
 
     <%= if Enum.empty?(@users) do %>
       <div class="d-flex justify-content-center text-body">
-        <h4>No results found!</h4>
+        <h4>No results!</h4>
       </div>
     <% else %>
       <%= for user <- @users do %>
